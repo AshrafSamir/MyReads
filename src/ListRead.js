@@ -5,27 +5,21 @@ import BooksApp from "./App";
 
 class  ListRead extends React.Component{
     state = {
-        readList: []
+
     }
 
-    componentDidMount() {
-        BooksAPI.getAll().then((Allbooks) => {
-            Allbooks.map((book) => {
-                book.shelf === "read" && this.setState((currState) =>({
-                    readList: currState.readList.concat([book])
-                }))
-            })
-        })
-    }
+
 
     render() {
+
+        const {  moveTo, readList } = this.props
         return(
             <div className="bookshelf">
-                <h2 className="bookshelf-title">Currently Reading</h2>
+                <h2 className="bookshelf-title">Read</h2>
                 <div className="bookshelf-books">
                     <ol className="books-grid">
                         {
-                            this.state.readList.map((book) => (
+                            readList.map((book) => (
                                 <li key={book.id}>
                                     <div className="book">
                                         <div className="book-top">
@@ -33,15 +27,15 @@ class  ListRead extends React.Component{
                                             <div className="book-shelf-changer">
                                                 <select>
                                                     <option value="move" disabled>Move to...</option>
-                                                    <option value="currentlyReading">Currently Reading</option>
-                                                    <option value="wantToRead">Want to Read</option>
-                                                    <option value="read">Read</option>
-                                                    <option value="none">None</option>
+                                                    <option onClick={() => (moveTo(book,"currentlyReading"))} value="currentlyReading">Currently Reading</option>
+                                                    <option onClick={() => (moveTo(book,"wantToRead"))} value="wantToRead">Want to Read</option>
+                                                    <option onClick={() => (moveTo(book,"read"))} value="read">Read</option>
+                                                    <option  value="none">None</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div className="book-title">{book.title}</div>
-                                        {book.authors.map((au) => (<div className="book-authors">{au}</div>) )}
+                                        {book.authors.map((au) => (<div key={au} className="book-authors">{au}</div>) )}
                                     </div>
                                 </li>
                             ))
