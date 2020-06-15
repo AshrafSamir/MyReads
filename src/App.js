@@ -18,8 +18,8 @@ class BooksApp extends React.Component {
      */
     readList: [],
     wantToReadList: [],
-    currentlyReadingList: [],
-    showSearchPage: false
+    currentlyReadingList: []
+
   }
 
   componentDidMount() {
@@ -39,28 +39,77 @@ class BooksApp extends React.Component {
   }
 
   update = (book, shelf) => {
-    shelf === "read" &&
-    this.setState((curr) => ({
-      readList: curr.state.readList.concat([book])
-        }))
-    shelf === "wantToRead" &&
-    this.setState((curr) => ({
-      wantToReadList: curr.state.wantToReadList.concat([book])
-    }))
-    shelf === "currentlyReading" &&
-    this.setState((curr) => ({
-      currentlyReadingList: curr.state.currentlyReadingList.concat([book])
-    }))
+
     BooksAPI.update(book, shelf)
-    console.log("hii")
+
+
+      shelf === "read" &&
+      this.setState((curr) => ({
+        readList: curr.readList.concat([book]),
+        wantToReadList: curr.wantToReadList.filter((b) => {
+          return b.id !== book.id
+        }),
+        currentlyReadingList: curr.currentlyReadingList.filter((b) => {
+          return b.id !== book.id
+        })
+      }))
+
+
+
+      shelf === "wantToRead" &&
+      this.setState((curr) => ({
+        wantToReadList: curr.wantToReadList.concat([book]),
+        readList: curr.readList.filter((b) => {
+          return b.id !== book.id
+        }),
+        currentlyReadingList: curr.currentlyReadingList.filter((b) => {
+          return b.id !== book.id
+        })
+      }))
+
+
+      shelf === "currentlyReading" &&
+      this.setState((curr) => ({
+        currentlyReadingList: curr.currentlyReadingList.concat([book]),
+        readList: curr.readList.filter((b) => {
+          return b.id !== book.id
+        }),
+        wantToReadList: curr.wantToReadList.filter((b) => {
+          return b.id !== book.id
+        })
+      }))
+
+
+    shelf === "none" &&
+    this.setState((curr) => ({
+      currentlyReadingList: curr.currentlyReadingList.filter((b) => {
+        return b.id !== book.id
+      }),
+      readList: curr.readList.filter((b) => {
+        return b.id !== book.id
+      }),
+      wantToReadList: curr.wantToReadList.filter((b) => {
+        return b.id !== book.id
+      })
+    }))
+
   }
+
+
+
+
 
   render() {
 
     return (
       <div className="app">
         <Route path='/search' render = {() => (
-            <Search />
+            <Search
+                moveTo = {this.update}
+                readL ={this.state.readList}
+                wantToL = {this.state.wantToReadList}
+                currL = {this.state.currentlyReadingList}
+            />
         )}/>
         <Route exact path='/' render = {() => (
                 <div className="list-books">
@@ -85,7 +134,9 @@ class BooksApp extends React.Component {
                   </div>
                   <div className="open-search">
                     {/*<button onClick={() => (<Link  to='/search'>Add a book</Link>)}>Add a book</button>*/}
-                    <Link  to='/search'>Add a book</Link>
+                    <Link  to='/search'>
+                      <button>Add a book</button>
+                    </Link>
                   </div>
                 </div>
         )}/>
