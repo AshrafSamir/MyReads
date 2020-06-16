@@ -42,6 +42,7 @@ class BooksApp extends React.Component {
 
     BooksAPI.update(book, shelf)
 
+      book.shelf = shelf
 
       shelf === "read" &&
       this.setState((curr) => ({

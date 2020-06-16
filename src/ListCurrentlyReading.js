@@ -25,12 +25,12 @@ class  ListCurrentlyReading extends React.Component{
                                         <div className="book-top">
                                             <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url("'+book.imageLinks.smallThumbnail+'")' }}></div>
                                             <div className="book-shelf-changer">
-                                                <select onChange={(e) => {moveTo(book, e.target.value)}}>
+                                                <select value="currentlyReading" onChange={(e) => {moveTo(book, e.target.value)}}>
                                                     <option  value="move" disabled>Move to...</option>
-                                                    <option  value="currentlyReading" selected={currentlyReadingList.includes(book)}>Currently Reading</option>
-                                                    <option  value="wantToRead" selected={false}>Want to Read</option>
-                                                    <option  value="read" selected={false}>Read</option>
-                                                    <option  value="none" selected={false}>None</option>
+                                                    <option  value="currentlyReading" >Currently Reading</option>
+                                                    <option  value="wantToRead" >Want to Read</option>
+                                                    <option  value="read" >Read</option>
+                                                    <option  value="none" >None</option>
                                                 </select>
                                             </div>
                                         </div>

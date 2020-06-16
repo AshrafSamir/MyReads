@@ -44,7 +44,7 @@ class Search extends React.Component{
 
     }
     changeSelected = (result) => {
-        const { moveTo , readL , wantToL , currL } = this.props
+        const { readL , wantToL , currL } = this.props
         const newlist = [...readL,...wantToL,...currL]
         result.map((book) => {
 
@@ -55,7 +55,6 @@ class Search extends React.Component{
             newlist.map(book => {
                 if (book.id === b.id) {
                     b.shelf = book.shelf
-                    moveTo(book, book.shelf)
                 }
                 return book
             })
